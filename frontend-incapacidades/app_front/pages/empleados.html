@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Empleados — Gestión de Incapacidades</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/modals.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="navbar-brand">Corporate Solutions</div>
+        <div class="navbar-menu">
+            <a href="../index.html">Dashboard</a>
+            <a href="empleados.html" class="active">Empleados</a>
+            <a href="incapacidades.html">Incapacidades</a>
+            <a href="seguimiento.html">Seguimiento</a>
+            <button class="btn-logout" onclick="logout()">Cerrar Sesión</button>
+        </div>
+    </nav>
+
+    <div class="main-content">
+
+        <div class="page-header">
+            <h2>Gestión de Empleados</h2>
+            <button class="btn-primary" onclick="showForm()">+ Nuevo Empleado</button>
+        </div>
+
+        <div class="filtros-container">
+            <input
+                type="text"
+                id="filtroDocumento"
+                placeholder="Buscar por documento..."
+                oninput="consultarEmpleados({ documento: this.value })"
+            />
+            <input
+                type="text"
+                id="filtroArea"
+                placeholder="Buscar por área..."
+                oninput="consultarEmpleados({ area: this.value })"
+            />
+            <select id="filtroEstado" onchange="consultarEmpleados({ estado: this.value })">
+                <option value="">Todos los estados</option>
+                <option value="activo">Activo</option>
+                <option value="inactivo">Inactivo</option>
+            </select>
+            <button class="btn-primary" onclick="consultarEmpleados()">Limpiar filtros</button>
+        </div>
+
+        <div class="table-container">
+            <table id="empleadosTb">
+                <thead>
+                    <tr>
+                        <th>Nombre completo</th>
+                        <th>Documento</th>
+                        <th>Correo</th>
+                        <th>Teléfono</th>
+                        <th>Cargo</th>
+                        <th>Área</th>
+                        <th>Fecha ingreso</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+    </div>
+
+    
+    <div id="contentForm" class="side-form">
+        <div class="side-form-header">
+            <h3>Datos del Empleado</h3>
+            <button class="btn-close" onclick="hideForm()">✕</button>
+        </div>
+
+        <form name="empleadoForm" id="empleadoForm">
+
+            <div class="form-group">
+                <label>Nombres</label>
+                <input type="text" name="nombres" placeholder="Nombres" required />
+            </div>
+
+            <div class="form-group">
+                <label>Apellidos</label>
+                <input type="text" name="apellidos" placeholder="Apellidos" required />
+            </div>
+
+            <div class="form-group">
+                <label>Documento</label>
+                <input type="text" name="documento" placeholder="Número de documento" required />
+            </div>
+
+            <div class="form-group">
+                <label>Correo electrónico</label>
+                <input type="email" name="correo" placeholder="correo@empresa.com" required />
+            </div>
+
+            <div class="form-group">
+                <label>Teléfono</label>
+                <input type="text" name="telefono" placeholder="Número de teléfono" required />
+            </div>
+
+            <div class="form-group">
+                <label>Cargo</label>
+                <input type="text" name="cargo" placeholder="Cargo del empleado" required />
+            </div>
+
+            <div class="form-group">
+                <label>Área</label>
+                <input type="text" name="area" placeholder="Área o departamento" required />
+            </div>
+
+            <div class="form-group">
+                <label>Fecha de ingreso</label>
+                <input type="date" name="fecha_ingreso" required />
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-primary">Guardar</button>
+                <button type="reset" class="btn-cancelar">Cancelar</button>
+            </div>
+
+        </form>
+    </div>
+
+  
+    <div class="overlay" id="overlay" onclick="hideForm()"></div>
+
+
+    <div id="modal1" class="modal close">
+        <div class="modal-content">
+            <p>Empleado guardado correctamente</p>
+            <button class="btn-primary">Aceptar</button>
+        </div>
+    </div>
+
+    <script src="../js/auth.js"></script>
+    <script src="../js/modal.js"></script>
+    <script src="../js/empleados.js"></script>
+    <!--
+    <script>
+        verificarSesion();
+    </script>
+-->
+</body>
+</html>
