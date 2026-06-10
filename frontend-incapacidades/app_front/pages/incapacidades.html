@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Incapacidades — Gestión de Incapacidades</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/modals.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <div class="navbar-brand">
+                Corporate <span>Solutions</span>
+            </div>
+            <div class="navbar-menu">
+                <a href="../index.html">Dashboard</a>
+                <a href="empleados.html">Empleados</a>
+                <a href="incapacidades.html" class="active">Incapacidades</a>
+                <a href="seguimiento.html">Seguimiento</a>
+                <button class="btn-logout" onclick="logout()">Cerrar Sesión</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-content">
+
+        <div class="page-header">
+            <div>
+                <h2>Incapacidades Médicas</h2>
+                <p>Registro y control de incapacidades de empleados</p>
+            </div>
+            <button class="btn-primary" onclick="showForm()">+ Nueva Incapacidad</button>
+        </div>
+
+        <div class="filtros-container">
+            <input
+                type="number"
+                id="filtroEmpleado"
+                placeholder="ID empleado..."
+                oninput="consultarIncapacidades({ empleado_id: this.value })"
+            />
+            <select id="filtroEstado" onchange="consultarIncapacidades({ estado: this.value })">
+                <option value="">Todos los estados</option>
+                <option value="registrada">Registrada</option>
+                <option value="en_revision">En revisión</option>
+                <option value="aprobada">Aprobada</option>
+                <option value="rechazada">Rechazada</option>
+                <option value="finalizada">Finalizada</option>
+            </select>
+            <select id="filtroTipo" onchange="consultarIncapacidades({ tipo: this.value })">
+                <option value="">Todos los tipos</option>
+                <option value="enfermedad_general">Enfermedad general</option>
+                <option value="accidente_laboral">Accidente laboral</option>
+                <option value="licencia_medica">Licencia médica</option>
+                <option value="incapacidad_temporal">Incapacidad temporal</option>
+            </select>
+            <input
+                type="date"
+                id="filtroFechaInicio"
+                onchange="consultarIncapacidades({ fecha_inicio: this.value })"
+            />
+            <input
+                type="date"
+                id="filtroFechaFin"
+                onchange="consultarIncapacidades({ fecha_fin: this.value })"
+            />
+            <button class="btn-cancelar" onclick="limpiarFiltros()">Limpiar</button>
+        </div>
+
+        
+        <div class="table-container">
+            <table id="incapacidadesTb">
+                <thead>
+                    <tr>
+                        <th>ID Empleado</th>
+                        <th>Fecha inicio</th>
+                        <th>Fecha fin</th>
+                        <th>Días</th>
+                        <th>Tipo</th>
+                        <th>Entidad médica</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <div id="contentForm" class="side-form">
+        <div class="side-form-header">
+            <h3>Datos de Incapacidad</h3>
+            <button class="btn-close" onclick="hideForm()">✕</button>
+        </div>
+
+        <form name="incapacidadForm" id="incapacidadForm">
+
+            <div class="form-group">
+                <label>ID Empleado</label>
+                <input
+                    type="number"
+                    name="empleado_id"
+                    placeholder="ID del empleado"
+                    required
+                />
+            </div>
+
+            <div class="form-group">
+                <label>Fecha inicio</label>
+                <input
+                    type="date"
+                    name="fecha_inicio"
+                    required
+                />
+            </div>
+
+            <div class="form-group">
+                <label>Fecha fin</label>
+                <input
+                    type="date"
+                    name="fecha_fin"
+                    required
+                />
+            </div>
+
+            <div class="form-group">
+                <label>Tipo de incapacidad</label>
+                <select name="tipo" required>
+                    <option value="">Seleccione un tipo</option>
+                    <option value="enfermedad_general">Enfermedad general</option>
+                    <option value="accidente_laboral">Accidente laboral</option>
+                    <option value="licencia_medica">Licencia médica</option>
+                    <option value="incapacidad_temporal">Incapacidad temporal</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Diagnóstico general</label>
+                <textarea
+                    name="diagnostico_general"
+                    placeholder="Describa el diagnóstico"
+                    required
+                ></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Entidad médica</label>
+                <input
+                    type="text"
+                    name="entidad_medica"
+                    placeholder="Nombre de la entidad médica"
+                    required
+                />
+            </div>
+
+            <div class="form-group">
+                <label>Observaciones</label>
+                <textarea
+                    name="observaciones"
+                    placeholder="Observaciones adicionales (opcional)"
+                ></textarea>
+            </div>
+
+            <div class="form-group" id="grupoEstado" style="display:none;">
+                <label>Estado</label>
+                <select name="estado">
+                    <option value="registrada">Registrada</option>
+                    <option value="en_revision">En revisión</option>
+                    <option value="aprobada">Aprobada</option>
+                    <option value="rechazada">Rechazada</option>
+                    <option value="finalizada">Finalizada</option>
+                </select>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-primary">Guardar</button>
+                <button type="reset" class="btn-cancelar">Cancelar</button>
+            </div>
+
+        </form>
+    </div>
+
+    <div class="overlay" id="overlay" onclick="hideForm()"></div>
+
+   
+    <div id="modal1" class="modal close">
+        <div class="modal-content">
+            <p>Incapacidad guardada correctamente</p>
+            <button class="btn-primary">Aceptar</button>
+        </div>
+    </div>
+
+    <script src="../js/auth.js"></script>
+    <script src="../js/modal.js"></script>
+    <script src="../js/incapacidades.js"></script>
+    <script>
+        verificarSesion();
+
+    
+        const grupoEstado = document.getElementById('grupoEstado');
+
+        const limpiarFiltros = () => {
+            document.getElementById('filtroEmpleado').value = '';
+            document.getElementById('filtroEstado').value = '';
+            document.getElementById('filtroTipo').value = '';
+            document.getElementById('filtroFechaInicio').value = '';
+            document.getElementById('filtroFechaFin').value = '';
+            consultarIncapacidades();
+        };
+    </script>
+</body>
+</html>
