@@ -7,6 +7,9 @@ const consultarSeguimientos = async (incapacidadId = null) => {
     try {
         if (seguimientos.length > 0) seguimientos.splice(0, seguimientos.length);
 
+        await cargarIncapacidades();
+        await cargarEmpleados();
+
         let url = `${MS_SEGUIMIENTO}/api/seguimientos`;
         if (incapacidadId) url += `?incapacidad_id=${incapacidadId}`;
 
@@ -25,6 +28,48 @@ const consultarSeguimientos = async (incapacidadId = null) => {
         }
     } catch (error) {
         console.error('Error al consultar seguimientos:', error);
+    }
+};
+
+let mapaIncapacidades = {};
+const cargarIncapacidades = async () => {
+
+    mapaIncapacidades = {};
+
+    const response = await fetch(
+        'http://127.0.0.1:8003/api/incapacidades',
+        {
+            headers: {
+                'Authorization': getToken()
+            }
+        }
+    );
+
+    const body = await response.json();
+
+    const lista = Array.isArray(body)
+        ? body
+        : (body.data || []);
+
+    lista.forEach(i => {
+        mapaIncapacidades[i.id] = i.empleado_id;
+    });
+};
+
+let mapaEmpleados = {};
+
+const cargarEmpleados = async () => {
+    try {
+        const response = await fetch('http://127.0.0.1:8002/api/empleados', {
+            headers: { 'Authorization': getToken() }
+        });
+        const body = await response.json();
+        const lista = Array.isArray(body) ? body : (body.data || []);
+        lista.forEach(e => {
+            mapaEmpleados[e.id] = `${e.nombres} ${e.apellidos}`;
+        });
+    } catch (error) {
+        console.error('Error al cargar empleados:', error);
     }
 };
 
@@ -54,8 +99,12 @@ const mostrarListaSeguimientos = () => {
     for (let item of seguimientos) {
         const tr = document.createElement('tr');
 
+        const empleadoId = mapaIncapacidades[item.incapacidad_id];
+
+        const nombreEmpleado = mapaEmpleados[empleadoId] ||`ID ${empleadoId}`;
+
         const campos = [
-            item.incapacidad_id,
+            nombreEmpleado,
             item.fecha,
             item.comentario,
             item.usuario_responsable

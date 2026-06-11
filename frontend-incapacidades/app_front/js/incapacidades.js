@@ -9,7 +9,7 @@ const consultarIncapacidades = async (filtros = {}) => {
     try {
         if (incapacidades.length > 0) incapacidades.splice(0, incapacidades.length);
 
-        await cargarEmpleados(); // ✅ cargar nombres primero
+        await cargarEmpleados(); 
 
         let url = `${MS_INCAPACIDADES}/api/incapacidades`;
         const params = new URLSearchParams(filtros);
@@ -33,7 +33,6 @@ const consultarIncapacidades = async (filtros = {}) => {
     }
 };
 
-// Mapa de empleados id → nombre
 let mapaEmpleados = {};
 
 const cargarEmpleados = async () => {
