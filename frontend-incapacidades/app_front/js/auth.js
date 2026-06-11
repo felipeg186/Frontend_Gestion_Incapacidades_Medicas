@@ -67,7 +67,7 @@ const logout = async () => {
         console.error('Error en logout:', error);
     } finally {
         cerrarSesion();
-        window.location.href = 'login.html';
+        window.location.href = '/app_front/pages/login.html';
     }
 };
 
