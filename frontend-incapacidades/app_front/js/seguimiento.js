@@ -20,7 +20,7 @@ const consultarSeguimientos = async (incapacidadId = null) => {
             body.data.forEach(item => seguimientos.push(item));
             mostrarListaSeguimientos();
         } else if (response.status === 401) {
-            window.location.href = 'login.html';
+            window.location.href = '/app_front/pages/login.html';
         }
     } catch (error) {
         console.error('Error al consultar seguimientos:', error);
