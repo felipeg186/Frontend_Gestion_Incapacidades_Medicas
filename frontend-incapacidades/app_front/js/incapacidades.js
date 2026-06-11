@@ -9,6 +9,8 @@ const consultarIncapacidades = async (filtros = {}) => {
     try {
         if (incapacidades.length > 0) incapacidades.splice(0, incapacidades.length);
 
+        await cargarEmpleados(); // ✅ cargar nombres primero
+
         let url = `${MS_INCAPACIDADES}/api/incapacidades`;
         const params = new URLSearchParams(filtros);
         if (params.toString()) url += `?${params.toString()}`;
@@ -31,6 +33,24 @@ const consultarIncapacidades = async (filtros = {}) => {
     }
 };
 
+// Mapa de empleados id → nombre
+let mapaEmpleados = {};
+
+const cargarEmpleados = async () => {
+    try {
+        const response = await fetch('http://127.0.0.1:8002/api/empleados', {
+            headers: { 'Authorization': getToken() }
+        });
+        const body = await response.json();
+        const lista = Array.isArray(body) ? body : (body.data || []);
+        lista.forEach(e => {
+            mapaEmpleados[e.id] = `${e.nombres} ${e.apellidos}`;
+        });
+    } catch (error) {
+        console.error('Error al cargar empleados:', error);
+    }
+};
+
 const mostrarListaIncapacidades = () => {
     const tbody = incapacidadesTable.getElementsByTagName('tbody')[0];
     tbody.innerHTML = '';
@@ -39,7 +59,7 @@ const mostrarListaIncapacidades = () => {
         const tr = document.createElement('tr');
 
         const campos = [
-            item.empleado_id,
+            mapaEmpleados[item.empleado_id] || `ID: ${item.empleado_id}`,
             item.fecha_inicio,
             item.fecha_fin,
             item.dias_incapacidad + ' días',
