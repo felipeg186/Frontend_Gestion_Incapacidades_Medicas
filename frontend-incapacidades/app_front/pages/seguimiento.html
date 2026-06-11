@@ -38,12 +38,11 @@
         </div>
 
         <div class="filtros-container">
-            <input
-                type="number"
+            <select
                 id="filtroIncapacidad"
-                placeholder="ID incapacidad..."
-                oninput="consultarSeguimientos(this.value)"
-            />
+                onchange="consultarSeguimientos(this.value)">
+                <option value="">Todos los empleados</option>
+            </select>
             <button
                 class="btn-primary"
                 onclick="consultarHistorial(document.getElementById('filtroIncapacidad').value)"
@@ -81,13 +80,15 @@
         <form name="seguimientoForm" id="seguimientoForm">
 
             <div class="form-group">
-                <label>ID Incapacidad</label>
-                <input
-                    type="number"
-                    name="incapacidad_id"
-                    placeholder="ID de la incapacidad"
-                    required
-                />
+                <label>Empleado</label>
+                    <select
+                        name="incapacidad_id"
+                        id="incapacidad_id"
+                        required>
+                        <option value="">
+                            Seleccione un empleado
+                        </option>
+                    </select>
             </div>
 
             <div class="form-group">

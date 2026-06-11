@@ -73,6 +73,94 @@ const cargarEmpleados = async () => {
     }
 };
 
+const cargarSelectIncapacidades = async () => {
+
+    try {
+
+        const responseIncapacidades = await fetch(
+            'http://127.0.0.1:8003/api/incapacidades',
+            {
+                headers: {
+                    'Authorization': getToken()
+                }
+            }
+        );
+
+        const bodyIncapacidades =
+            await responseIncapacidades.json();
+
+        const incapacidades =
+            Array.isArray(bodyIncapacidades)
+                ? bodyIncapacidades
+                : (bodyIncapacidades.data || []);
+        const responseEmpleados = await fetch(
+            'http://127.0.0.1:8002/api/empleados',
+            {
+                headers: {
+                    'Authorization': getToken()
+                }
+            }
+        );
+
+        const bodyEmpleados =
+            await responseEmpleados.json();
+
+        const empleados =
+            Array.isArray(bodyEmpleados)
+                ? bodyEmpleados
+                : (bodyEmpleados.data || []);
+        mapaEmpleados = {};
+
+        empleados.forEach(emp => {
+
+            mapaEmpleados[emp.id] =
+                `${emp.nombres} ${emp.apellidos}`;
+
+        });
+
+        const selectForm =
+            document.getElementById('incapacidad_id');
+
+        const selectFiltro =
+            document.getElementById('filtroIncapacidad');
+
+        selectForm.innerHTML =
+            '<option value="">Seleccione un empleado</option>';
+
+        selectFiltro.innerHTML =
+            '<option value="">Todos los empleados</option>';
+
+        incapacidades.forEach(inc => {
+
+            const nombre =
+                mapaEmpleados[inc.empleado_id];
+
+            const option1 =
+                document.createElement('option');
+
+            option1.value = inc.id;
+            option1.textContent = `${nombre} - Incapacidad #${inc.id}`;
+
+            selectForm.appendChild(option1);
+
+            const option2 =
+                document.createElement('option');
+
+            option2.value = inc.id;
+            option2.textContent =`${nombre} - Incapacidad #${inc.id}`;
+
+            selectFiltro.appendChild(option2);
+
+        });
+
+    } catch(error) {
+
+        console.error(error);
+
+    }
+
+};
+
 const consultarHistorial = async (incapacidadId) => {
     try {
         if (seguimientos.length > 0) seguimientos.splice(0, seguimientos.length);
@@ -84,8 +172,13 @@ const consultarHistorial = async (incapacidadId) => {
         const body = await response.json();
 
         if (response.status === 200) {
-            body.data.forEach(item => seguimientos.push(item));
-            mostrarListaSeguimientos();
+
+            const lista = Array.isArray(body)
+                ? body
+                : (body.data || []);
+
+            lista.forEach(item => seguimientos.push(item));
+         mostrarListaSeguimientos();
         }
     } catch (error) {
         console.error('Error al consultar historial:', error);
@@ -162,6 +255,7 @@ const registrarSeguimiento = async () => {
 
 
 consultarSeguimientos();
+cargarSelectIncapacidades();
 
 seguimientoForm.addEventListener('submit', (event) => {
     event.preventDefault();
