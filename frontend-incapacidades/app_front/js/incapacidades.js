@@ -50,6 +50,61 @@ const cargarEmpleados = async () => {
     }
 };
 
+const cargarSelectEmpleados = async () => {
+    try {
+
+        const response = await fetch(
+            'http://127.0.0.1:8002/api/empleados',
+            {
+                headers: {
+                    'Authorization': getToken()
+                }
+            }
+        );
+
+        const body = await response.json();
+
+        const lista = Array.isArray(body)
+            ? body
+            : (body.data || []);
+
+    
+        const selectEmpleado =
+            document.getElementById('empleado_id');
+
+     
+        const filtroEmpleado =
+            document.getElementById('filtroEmpleado');
+
+        selectEmpleado.innerHTML =
+            '<option value="">Seleccione un empleado</option>';
+
+        filtroEmpleado.innerHTML =
+            '<option value="">Todos los empleados</option>';
+
+        lista.forEach(emp => {
+
+          
+            const option1 = document.createElement('option');
+            option1.value = emp.id;
+            option1.textContent =
+                `${emp.nombres} ${emp.apellidos}`;
+            selectEmpleado.appendChild(option1);
+
+           
+            const option2 = document.createElement('option');
+            option2.value = emp.id;
+            option2.textContent =
+                `${emp.nombres} ${emp.apellidos}`;
+            filtroEmpleado.appendChild(option2);
+
+        });
+
+    } catch (error) {
+        console.error(error);
+    }
+};
+
 const mostrarListaIncapacidades = () => {
     const tbody = incapacidadesTable.getElementsByTagName('tbody')[0];
     tbody.innerHTML = '';
@@ -202,6 +257,7 @@ const finalizarIncapacidad = async (id) => {
 
 
 consultarIncapacidades();
+cargarSelectEmpleados();
 
 incapacidadForm.addEventListener('submit', (event) => {
     event.preventDefault();

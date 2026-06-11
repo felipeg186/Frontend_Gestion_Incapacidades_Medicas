@@ -39,12 +39,11 @@
         </div>
 
         <div class="filtros-container">
-            <input
-                type="number"
+            <select
                 id="filtroEmpleado"
-                placeholder="ID empleado..."
-                oninput="consultarIncapacidades({ empleado_id: this.value })"
-            />
+                onchange="consultarIncapacidades({ empleado_id: this.value })">               
+                <option value="">Todos los empleados</option>
+            </select>
             <select id="filtroEstado" onchange="consultarIncapacidades({ estado: this.value })">
                 <option value="">Todos los estados</option>
                 <option value="registrada">Registrada</option>
@@ -103,13 +102,11 @@
         <form name="incapacidadForm" id="incapacidadForm">
 
             <div class="form-group">
-                <label>ID Empleado</label>
-                <input
-                    type="number"
-                    name="empleado_id"
-                    placeholder="ID del empleado"
-                    required
-                />
+                <label>Empleado</label>
+
+                <select name="empleado_id" id="empleado_id" required>
+                    <option value="">Seleccione un empleado</option>
+                </select>
             </div>
 
             <div class="form-group">
