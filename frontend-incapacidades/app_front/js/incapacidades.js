@@ -23,7 +23,7 @@ const consultarIncapacidades = async (filtros = {}) => {
             body.data.forEach(item => incapacidades.push(item));
             mostrarListaIncapacidades();
         } else if (response.status === 401) {
-            window.location.href = 'login.html';
+            window.location.href = '/app_front/pages/login.html';
         }
     } catch (error) {
         console.error('Error al consultar incapacidades:', error);
