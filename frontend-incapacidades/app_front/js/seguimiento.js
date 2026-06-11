@@ -17,7 +17,8 @@ const consultarSeguimientos = async (incapacidadId = null) => {
         const body = await response.json();
 
         if (response.status === 200) {
-            body.data.forEach(item => seguimientos.push(item));
+            const lista = Array.isArray(body) ? body : (body.data || []);
+            lista.forEach(item => seguimientos.push(item));
             mostrarListaSeguimientos();
         } else if (response.status === 401) {
             window.location.href = '/app_front/pages/login.html';
