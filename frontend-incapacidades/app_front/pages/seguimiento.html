@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seguimiento — Gestión de Incapacidades</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/modals.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <div class="navbar-brand">
+                Corporate <span>Solutions</span>
+            </div>
+            <div class="navbar-menu">
+                <a href="../index.html">Dashboard</a>
+                <a href="empleados.html">Empleados</a>
+                <a href="incapacidades.html">Incapacidades</a>
+                <a href="seguimiento.html" class="active">Seguimiento</a>
+                <button class="btn-logout" onclick="logout()">Cerrar Sesión</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-content">
+
+        <div class="page-header">
+            <div>
+                <h2>Seguimiento</h2>
+                <p>Trazabilidad y control administrativo de incapacidades</p>
+            </div>
+            <button class="btn-primary" onclick="showForm()">+ Nuevo Seguimiento</button>
+        </div>
+
+        <div class="filtros-container">
+            <input
+                type="number"
+                id="filtroIncapacidad"
+                placeholder="ID incapacidad..."
+                oninput="consultarSeguimientos(this.value)"
+            />
+            <button
+                class="btn-primary"
+                onclick="consultarHistorial(document.getElementById('filtroIncapacidad').value)"
+            >
+                Ver historial
+            </button>
+            <button class="btn-cancelar" onclick="limpiarFiltros()">
+                Limpiar
+            </button>
+        </div>
+
+        <div class="table-container">
+            <table id="seguimientosTb">
+                <thead>
+                    <tr>
+                        <th>ID Incapacidad</th>
+                        <th>Fecha</th>
+                        <th>Comentario</th>
+                        <th>Usuario responsable</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <div id="contentForm" class="side-form">
+        <div class="side-form-header">
+            <h3>Nuevo Seguimiento</h3>
+            <button class="btn-close" onclick="hideForm()">✕</button>
+        </div>
+
+        <form name="seguimientoForm" id="seguimientoForm">
+
+            <div class="form-group">
+                <label>ID Incapacidad</label>
+                <input
+                    type="number"
+                    name="incapacidad_id"
+                    placeholder="ID de la incapacidad"
+                    required
+                />
+            </div>
+
+            <div class="form-group">
+                <label>Fecha</label>
+                <input
+                    type="date"
+                    name="fecha"
+                    required
+                />
+            </div>
+
+            <div class="form-group">
+                <label>Comentario</label>
+                <textarea
+                    name="comentario"
+                    placeholder="Describa el seguimiento realizado"
+                    required
+                ></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Estado actualizado</label>
+                <select name="estado" required>
+                    <option value="">Seleccione un estado</option>
+                    <option value="registrada">Registrada</option>
+                    <option value="en_revision">En revisión</option>
+                    <option value="aprobada">Aprobada</option>
+                    <option value="rechazada">Rechazada</option>
+                    <option value="finalizada">Finalizada</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Usuario responsable</label>
+                <input
+                    type="text"
+                    name="usuario_responsable"
+                    placeholder="Usuario que registra el seguimiento"
+                    required
+                />
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-primary">Guardar</button>
+                <button type="reset" class="btn-cancelar">Cancelar</button>
+            </div>
+
+        </form>
+    </div>
+
+    <div class="overlay" id="overlay" onclick="hideForm()"></div>
+
+    <div id="modal1" class="modal close">
+        <div class="modal-content">
+            <p>Seguimiento registrado correctamente</p>
+            <button class="btn-primary">Aceptar</button>
+        </div>
+    </div>
+
+    <script src="../js/auth.js"></script>
+    <script src="../js/modal.js"></script>
+    <script src="../js/seguimiento.js"></script>
+    
+    <script>
+        verificarSesion();
+
+        const hoy = new Date().toISOString().split('T')[0];
+        document.forms['seguimientoForm']['fecha'].value = hoy;
+
+        const usuarioActual = localStorage.getItem('usuario');
+        if (usuarioActual) {
+            document.forms['seguimientoForm']['usuario_responsable'].value = usuarioActual;
+        }
+
+        const limpiarFiltros = () => {
+            document.getElementById('filtroIncapacidad').value = '';
+            consultarSeguimientos();
+        };
+    </script>
+</body>
+</html>
