@@ -34,7 +34,7 @@ body {
 ::-webkit-scrollbar-track { background: var(--c-bg); }
 ::-webkit-scrollbar-thumb { background: var(--c-border); border-radius: 3px; }
 
-/* ── LOGIN ── */
+
 .login-body {
     display: flex;
     align-items: center;
@@ -91,7 +91,7 @@ body {
     letter-spacing: 0.5px;
 }
 
-/* ── NAVBAR ── */
+
 .navbar {
     background: var(--c-surface);
     border-bottom: 1px solid var(--c-border);
@@ -150,7 +150,7 @@ body {
     font-weight: 700;
 }
 
-/* ── LAYOUT ── */
+
 .main-content {
     max-width: 1200px;
     margin: 0 auto;
@@ -180,7 +180,6 @@ body {
     font-family: var(--font-mono);
 }
 
-/* ── FORMS ── */
 .form-group { margin-bottom: 16px; }
 
 .form-group label {
@@ -227,7 +226,6 @@ body {
     border-top: 1px solid var(--c-border);
 }
 
-/* ── BUTTONS ── */
 .btn-primary {
     background: var(--c-accent);
     color: #000;
@@ -378,7 +376,6 @@ body {
     color: var(--c-text);
 }
 
-/* ── FILTERS ── */
 .filtros-container {
     display: flex;
     gap: 10px;
@@ -412,7 +409,6 @@ body {
     box-shadow: 0 0 0 3px rgba(0,229,160,0.08);
 }
 
-/* ── TABLE ── */
 .table-container {
     background: var(--c-surface);
     border: 1px solid var(--c-border);
@@ -457,7 +453,6 @@ tbody td {
     font-size: 13px;
 }
 
-/* ── BADGES ── */
 .badge {
     padding: 3px 10px;
     border-radius: 20px;
@@ -476,7 +471,6 @@ tbody td {
 .badge-rechazada   { background: rgba(255,77,109,0.12); color: var(--c-accent2); border: 1px solid rgba(255,77,109,0.25); }
 .badge-finalizada  { background: rgba(167,139,250,0.12);color: var(--c-accent5); border: 1px solid rgba(167,139,250,0.25); }
 
-/* ── SIDE FORM ── */
 .side-form {
     position: fixed;
     top: 0;
@@ -519,7 +513,6 @@ tbody td {
 
 .overlay.active { display: block; }
 
-/* ── DASHBOARD ── */
 .dashboard-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -588,7 +581,6 @@ tbody td {
     font-family: var(--font-mono);
 }
 
-/* ── BIENVENIDA ── */
 .bienvenida {
     display: flex;
     align-items: flex-start;
@@ -651,7 +643,6 @@ tbody td {
     font-family: var(--font-mono);
 }
 
-/* ── SESION INFO ── */
 .sesion-info {
     background: var(--c-surface);
     border: 1px solid var(--c-border);
@@ -709,7 +700,7 @@ tbody td {
     color: var(--c-accent3);
 }
 
-/* ── ERROR MSG ── */
+
 .error-msg {
     background: rgba(255,77,109,0.08);
     color: var(--c-accent2);
@@ -721,7 +712,6 @@ tbody td {
     font-family: var(--font-mono);
 }
 
-/* ── TOAST ── */
 .toast {
     position: fixed;
     bottom: 24px;
@@ -743,7 +733,6 @@ tbody td {
 .toast.success { border-left: 3px solid var(--c-accent); }
 .toast.error   { border-left: 3px solid var(--c-accent2); }
 
-/* ── ANIMATIONS ── */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(8px); }
     to   { opacity: 1; transform: translateY(0); }
@@ -754,7 +743,6 @@ tbody td {
     to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ── RESPONSIVE ── */
 @media (max-width: 768px) {
     .navbar-inner { padding: 0 16px; }
     .main-content { padding: 20px 16px; }
