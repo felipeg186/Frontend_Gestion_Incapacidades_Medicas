@@ -22,7 +22,7 @@ const consultarEmpleados = async (filtros = {}) => {
             body.data.forEach(item => empleados.push(item));
             mostrarListaEmpleados();
         } else if (response.status === 401) {
-            window.location.href = 'login.html';
+            window.location.href = '/app_front/pages/login.html';
         }
     } catch (error) {
         console.error('Error al consultar empleados:', error);
