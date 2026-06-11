@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard — Gestión de Incapacidades</title>
+
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+   
+    <link rel="stylesheet" href="app_front/css/base.css">
+    <link rel="stylesheet" href="app_front/css/modals.css">
+</head>
+<body>
+
+  
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <div class="navbar-brand">
+                Corporate <span>Solutions</span>
+            </div>
+            <div class="navbar-menu">
+                <a href="index.html" class="active">Dashboard</a>
+                <a href="pages/empleados.html">Empleados</a>
+                <a href="pages/incapacidades.html">Incapacidades</a>
+                <a href="pages/seguimiento.html">Seguimiento</a>
+                <button class="btn-logout" onclick="logout()">Cerrar Sesión</button>
+            </div>
+        </div>
+    </nav>
+
+   
+    <div class="main-content">
+
+        
+        <div class="bienvenida">
+            <div>
+                <h2 id="tituloBienvenida">Bienvenido</h2>
+                <p id="subtituloBienvenida">Sistema de Gestión de Incapacidades Médicas — Corporate Solutions</p>
+            </div>
+            <div class="bienvenida-meta">
+                <span id="rolUsuario" class="badge-rol"></span>
+                <span id="fechaHoy" class="fecha-hoy"></span>
+            </div>
+        </div>
+
+        
+        <div class="dashboard-grid">
+
+            <a href="pages/empleados.html" class="dashboard-card">
+                <div class="dashboard-card-icon">👥</div>
+                <div class="dashboard-card-title">Empleados</div>
+                <div class="dashboard-card-desc">
+                    Gestiona la información del personal. Registra, edita y controla el estado de los empleados.
+                </div>
+                <div class="dashboard-card-footer">
+                    <span class="dashboard-card-link">Ver módulo →</span>
+                </div>
+            </a>
+
+            <a href="pages/incapacidades.html" class="dashboard-card">
+                <div class="dashboard-card-icon">🏥</div>
+                <div class="dashboard-card-title">Incapacidades</div>
+                <div class="dashboard-card-desc">
+                    Registra y administra incapacidades médicas. Controla fechas, tipos y estados.
+                </div>
+                <div class="dashboard-card-footer">
+                    <span class="dashboard-card-link">Ver módulo →</span>
+                </div>
+            </a>
+
+            <a href="pages/seguimiento.html" class="dashboard-card">
+                <div class="dashboard-card-icon">📋</div>
+                <div class="dashboard-card-title">Seguimiento</div>
+                <div class="dashboard-card-desc">
+                    Realiza trazabilidad administrativa. Consulta el historial completo de cambios.
+                </div>
+                <div class="dashboard-card-footer">
+                    <span class="dashboard-card-link">Ver módulo →</span>
+                </div>
+            </a>
+
+        </div>
+
+        
+        <div class="sesion-info">
+            <div class="sesion-info-header">
+                <h3>Información de sesión</h3>
+            </div>
+            <div class="sesion-info-body">
+                <div class="sesion-item">
+                    <span class="sesion-label">Usuario</span>
+                    <span class="sesion-valor" id="infoUsuario">—</span>
+                </div>
+                <div class="sesion-item">
+                    <span class="sesion-label">Nombre</span>
+                    <span class="sesion-valor" id="infoNombre">—</span>
+                </div>
+                <div class="sesion-item">
+                    <span class="sesion-label">Rol</span>
+                    <span class="sesion-valor" id="infoRol">—</span>
+                </div>
+                <div class="sesion-item">
+                    <span class="sesion-label">Token</span>
+                    <span class="sesion-valor token-valor" id="infoToken">—</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script>
+        
+        verificarSesion();
+
+        
+        const nombre   = localStorage.getItem('nombre')  || 'Usuario';
+        const usuario  = localStorage.getItem('usuario') || '—';
+        const rol      = localStorage.getItem('rol')     || '—';
+        const token    = localStorage.getItem('token')   || '—';
+
+       
+        document.getElementById('tituloBienvenida').textContent = `Bienvenido, ${nombre}`;
+
+       
+        const rolFormateado = rol.replace(/_/g, ' ');
+        document.getElementById('rolUsuario').textContent = rolFormateado;
+
+        
+        const fecha = new Date();
+        const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('fechaHoy').textContent = fecha.toLocaleDateString('es-CO', opciones);
+
+       
+        document.getElementById('infoUsuario').textContent = usuario;
+        document.getElementById('infoNombre').textContent  = nombre;
+        document.getElementById('infoRol').textContent     = rolFormateado;
+        document.getElementById('infoToken').textContent   = token.substring(0, 20) + '...';
+    </script>
+</body>
+</html>
