@@ -23,7 +23,7 @@ const cerrarSesion = () => {
 const verificarSesion = () => {
     const token = getToken();
     if (!token) {
-        window.location.href = '../pages/login.html';
+        window.location.href = 'login.html';
     }
 };
 
@@ -46,7 +46,7 @@ const login = async () => {
 
         if (response.status === 200) {
             guardarSesion(body.data);
-            window.location.href = '../index.html';
+            window.location.href = '/index.html';
         } else {
             mostrarError(body.mensaje || 'Credenciales incorrectas');
         }
@@ -67,7 +67,7 @@ const logout = async () => {
         console.error('Error en logout:', error);
     } finally {
         cerrarSesion();
-        window.location.href = 'pages/login.html';
+        window.location.href = 'login.html';
     }
 };
 
