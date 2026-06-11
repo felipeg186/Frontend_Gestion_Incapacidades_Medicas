@@ -1,3 +1,4 @@
+/* ── MODAL OVERLAY ── */
 .modal-overlay {
     position: fixed;
     inset: 0;
@@ -11,13 +12,16 @@
     animation: overlayIn 0.2s ease;
 }
 
-.modal-overlay.hidden { display: none !important; }
+.modal-overlay.hidden {
+    display: none !important;
+}
 
 @keyframes overlayIn {
     from { opacity: 0; }
     to   { opacity: 1; }
 }
 
+/* ── MODAL ── */
 .modal {
     background: var(--c-surface);
     border: 1px solid var(--c-border);
@@ -48,6 +52,7 @@
     font-size: 17px;
     font-weight: 700;
     color: var(--c-text);
+    letter-spacing: -0.3px;
 }
 
 .modal-close {
@@ -84,17 +89,49 @@
     color: var(--c-text);
     font-size: 14px;
     line-height: 1.6;
+    font-family: var(--font-mono);
 }
 
-.modal.close { display: none; }
+/* ── LEGACY MODAL (modal.js compatible) ── */
+.close { display: none !important; }
 
-.modal-content {
-    padding: 30px;
+.modal.close { display: none !important; }
+
+#modal1 {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    animation: overlayIn 0.2s ease;
+}
+
+#modal1.close { display: none !important; }
+
+#modal1 .modal-content {
+    background: var(--c-surface);
+    border: 1px solid var(--c-accent);
+    border-radius: var(--radius-lg);
+    padding: 32px 28px;
+    max-width: 360px;
+    width: 100%;
     text-align: center;
+    box-shadow: 0 0 40px rgba(0,229,160,0.1);
+    animation: modalIn 0.25s ease;
 }
 
-.modal-content p {
+#modal1 .modal-content p {
+    font-family: var(--font-mono);
+    font-size: 14px;
     color: var(--c-text);
-    font-size: 15px;
     margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+#modal1 .modal-content .btn-primary {
+    min-width: 100px;
 }
