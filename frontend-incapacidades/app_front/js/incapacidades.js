@@ -165,6 +165,8 @@ const cargarIncapacidad = (item) => {
     incapacidadForm['entidad_medica'].value = item.entidad_medica;
     incapacidadForm['observaciones'].value = item.observaciones || '';
     incapacidadForm['estado'].value = item.estado;
+
+    grupoEstado.classList.remove('hidden');
     showForm();
 };
 
@@ -266,5 +268,6 @@ incapacidadForm.addEventListener('submit', (event) => {
 
 incapacidadForm.addEventListener('reset', () => {
     incapacidad_id = null;
+    grupoEstado.classList.add('hidden'); 
     hideForm();
 });

@@ -76,6 +76,6 @@ const mostrarError = (mensaje) => {
     const errorDiv = document.getElementById('loginError');
     if (errorDiv) {
         errorDiv.textContent = mensaje;
-        errorDiv.style.display = 'block';
+        errorDiv.classList.remove('hidden');
     }
 };
